@@ -22,20 +22,10 @@ class ScratchCardView : View {
     private var foregroundDrawable : Int? = null
     private var removePaintOnUp : Boolean = false
 
-    /**
-     * We start by defining an OnScratchListener interface. It has a
-     * method signature of the method we will implement.
-     */
     interface OnScratchListener {
         fun onScratch(scratchCard: ScratchCardView?, visiblePercent: Float)
     }
 
-    /**
-     * Then three constructors both with a super() method.
-     * @param context
-     * @param attrs
-     * @param defStyle
-     */
     constructor(
         context: Context,
         attrs: AttributeSet?,
@@ -55,12 +45,6 @@ class ScratchCardView : View {
         resolveAttr(context, null)
     }
 
-    /**
-     * In our attrs.xml we have defined drawable and scratch width. Let's
-     * reference them.
-     * @param context
-     * @param attrs
-     */
     private fun resolveAttr(
         context: Context,
         attrs: AttributeSet?
@@ -84,14 +68,6 @@ class ScratchCardView : View {
     fun setOnScratchListener(mListener: ((scratched : Boolean) -> Unit)?) {
         this.mListener = mListener
     }
-
-    /**
-     * If the size of our ScratchCard changes.
-     * @param width - new width
-     * @param height - new height
-     * @param oldWidth - oldWidth
-     * @param oldHeight - old height
-     */
 
     private  fun getBitmap(drawableRes: Int): Bitmap? {
         val drawable = resources.getDrawable(drawableRes)
@@ -167,13 +143,6 @@ class ScratchCardView : View {
     private var mLastTouchX = 0f
     private var mLastTouchY = 0f
 
-    /**
-     * Now we need to implement a method to allow us handle touch screen
-     * motion events.
-     * @param event - MotionEvent, an Object used to report movement
-     * (mouse, pen, finger, trackball) events.
-     * @return
-     */
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val currentTouchX = event.x
         val currentTouchY = event.y
@@ -196,19 +165,6 @@ class ScratchCardView : View {
             MotionEvent.ACTION_UP -> {
                 mPath?.lineTo(currentTouchX, currentTouchY)
                 if (mListener != null) {
-                    val width = bitmap?.width
-                    val height = bitmap?.height
-                    val total = width?.times(height ?: 0)
-                    var count = 0
-                    var i = 0
-                    while (i < width ?:0) {
-                        var j = 0
-                        while (j < height ?:0) {
-                            if (bitmap?.getPixel(i, j) == 0x00000000) count++
-                            j += 3
-                        }
-                        i += 3
-                    }
                     mListener?.invoke(true)
 
                     if(removePaintOnUp)
@@ -228,18 +184,11 @@ class ScratchCardView : View {
         return true
     }
 
-    /**
-     * Now we implement a method allowing us do the drawing.
-     * @param canvas - Canvas Object
-     */
     override fun onDraw(canvas: Canvas) {
         canvas.drawBitmap(bitmap!!, 0f, 0f, mOuterPaint)
         super.onDraw(canvas)
     }
 
-    /**
-     * Let's override a method to be called when the view is detached from a window.
-     */
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         if (bitmap != null) {
