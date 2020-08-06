@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ScratchCardView">
+        <attr name="foregroundColour" format="color" />
+        <attr name="drawRadius" format="dimension" />
+        <attr name="foregroundDrawable" format="reference"/>
+    </declare-styleable>
+</resources>
