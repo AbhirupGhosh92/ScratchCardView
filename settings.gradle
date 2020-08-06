@@ -1,2 +1,3 @@
+include ':ScratchCard'
 include ':app'
 rootProject.name = "ScratchCardView"

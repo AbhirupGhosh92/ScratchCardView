@@ -1,4 +1,4 @@
-package com.example.scratchcardview.customview
+package com.ezzzio.scratchcard
 
 import android.content.Context
 import android.graphics.*
@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import com.example.scratchcardview.R
 import kotlinx.coroutines.*
 
 
