@@ -2,6 +2,7 @@ package com.example.scratchcardview
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.ezzzio.scratchcard.ScratchCardView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
