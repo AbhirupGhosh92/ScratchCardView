@@ -4,5 +4,6 @@
         <attr name="foregroundColour" format="color" />
         <attr name="drawRadius" format="dimension" />
         <attr name="foregroundDrawable" format="reference"/>
+        <attr name="removePaintOnUp" format="boolean"/>
     </declare-styleable>
 </resources>

@@ -20,6 +20,7 @@ class ScratchCardView : View {
     private var mListener: ((scratched : Boolean) -> Unit)? = null
     private var foregroundColour : Int? = null
     private var foregroundDrawable : Int? = null
+    private var removePaintOnUp : Boolean = false
 
     /**
      * We start by defining an OnScratchListener interface. It has a
@@ -68,6 +69,7 @@ class ScratchCardView : View {
         scratchWidth = typedArray.getDimension(R.styleable.ScratchCardView_drawRadius,150.0f)
         foregroundColour = typedArray.getColor(R.styleable.ScratchCardView_foregroundColour,0)
         foregroundDrawable = typedArray.getResourceId(R.styleable.ScratchCardView_foregroundDrawable,0)
+        removePaintOnUp = typedArray.getBoolean(R.styleable.ScratchCardView_removePaintOnUp,false)
         typedArray.recycle()
     }
 
@@ -208,6 +210,12 @@ class ScratchCardView : View {
                         i += 3
                     }
                     mListener?.invoke(true)
+
+                    if(removePaintOnUp)
+                    {
+                        //TODO Remove paint
+                    }
+
                 }
             }
         }
