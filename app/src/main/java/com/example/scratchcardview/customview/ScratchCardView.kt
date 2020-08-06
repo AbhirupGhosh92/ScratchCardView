@@ -7,10 +7,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.example.scratchcardview.R
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 
 class ScratchCardView : View {
@@ -25,6 +22,7 @@ class ScratchCardView : View {
     private var foregroundColour : Int? = null
     private var foregroundDrawable : Int? = null
     private var removePaintOnUp : Boolean = false
+    private var task : Job? = null
 
 
     constructor(
@@ -151,6 +149,7 @@ class ScratchCardView : View {
             MotionEvent.ACTION_DOWN -> {
                 mPath?.reset()
                 mPath?.moveTo(event.x, event.y)
+                task?.cancel()
             }
             MotionEvent.ACTION_MOVE -> {
                 val dx = Math.abs(currentTouchX - mLastTouchX)
@@ -170,12 +169,14 @@ class ScratchCardView : View {
                 }
                 if(removePaintOnUp)
                 {
-                    CoroutineScope(Dispatchers.Default).launch {
+                    task = CoroutineScope(Dispatchers.Default).launch {
                         delay(500)
                         mInnerPaint?.style = Paint.Style.FILL
                         canvas?.drawPaint(mInnerPaint!!)
                         invalidate()
                     }
+
+                    task?.start()
 
                 }
             }
