@@ -7,6 +7,10 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.example.scratchcardview.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class ScratchCardView : View {
@@ -22,9 +26,6 @@ class ScratchCardView : View {
     private var foregroundDrawable : Int? = null
     private var removePaintOnUp : Boolean = false
 
-    interface OnScratchListener {
-        fun onScratch(scratchCard: ScratchCardView?, visiblePercent: Float)
-    }
 
     constructor(
         context: Context,
@@ -107,8 +108,8 @@ class ScratchCardView : View {
                     if(drawable!=null)
                     {
                        canvas?.drawBitmap(drawable,
-                           (canvas?.width?.minus(drawable.width))?.div(2)?.toFloat()!!,
-                           (canvas?.height?.minus(drawable.height))?.div(2)?.toFloat()!!,mOuterPaint)
+                           null,RectF(0.0f, 0.0f, canvas?.width?.toFloat()?:0.0f, canvas?.height?.toFloat()?:0.0f
+                           ),mOuterPaint)
                     }
                     else
                     {
@@ -166,10 +167,14 @@ class ScratchCardView : View {
                 mPath?.lineTo(currentTouchX, currentTouchY)
                 if (mListener != null) {
                     mListener?.invoke(true)
-
-                    if(removePaintOnUp)
-                    {
-                        //TODO Remove paint
+                }
+                if(removePaintOnUp)
+                {
+                    CoroutineScope(Dispatchers.Default).launch {
+                        delay(500)
+                        mInnerPaint?.style = Paint.Style.FILL
+                        canvas?.drawPaint(mInnerPaint!!)
+                        invalidate()
                     }
 
                 }
